@@ -1,11 +1,13 @@
 package com.guestDetailsService.controller;
 
-import com.guestDetailsService.entity.Guest;
+import com.guestDetailsService.entity.PrimaryGuest;
 import com.guestDetailsService.entity.RegistrationForm;
 import com.guestDetailsService.service.GuestRegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +21,7 @@ import java.util.List;
 @CrossOrigin("*")
 public class GuestRegistrationController {
 
+    @Autowired
     private final GuestRegistrationService service;
 
     private static final Logger log = LoggerFactory.getLogger(GuestRegistrationController.class);
@@ -39,7 +42,7 @@ public class GuestRegistrationController {
             String base64 = Base64.getEncoder().encodeToString(identityFile.getBytes());
             String fullBase64 = prefix + base64;
 
-            Guest guest = form.getPrimaryGuest();
+            PrimaryGuest guest = form.getPrimaryGuest();
             guest.setIdentityFileBase64(fullBase64);
             form.setPrimaryGuest(guest);
 
@@ -84,7 +87,7 @@ public class GuestRegistrationController {
             String base64 = Base64.getEncoder().encodeToString(identityFile.getBytes());
             String fullBase64 = prefix + base64;
 
-            Guest guest = form.getPrimaryGuest();
+            PrimaryGuest guest = form.getPrimaryGuest();
             guest.setIdentityFileBase64(fullBase64);
             form.setPrimaryGuest(guest);
 
@@ -101,4 +104,14 @@ public class GuestRegistrationController {
         service.delete(id);
         log.info("Guest registration deleted for ID: {}", id);
     }
+
+    @PutMapping("/update-status/{id}/{status}")
+    public ResponseEntity<String> updateGuestStatus(
+            @PathVariable String id,
+            @PathVariable String status // This matches FormData from frontend
+    ) {
+        String result = service.updateStatus(id, status);
+        return ResponseEntity.ok(result);
+    }
+
 }

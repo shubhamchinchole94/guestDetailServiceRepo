@@ -3,6 +3,8 @@ package com.guestDetailsService.entity;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -12,28 +14,29 @@ public class RegistrationForm {
     @Id
     private String id;
 
-    private Guest primaryGuest;
-
+    private PrimaryGuest primaryGuest;
     private List<FamilyMember> familyMembers;
 
-    private String checkInTime;
-    private String checkOutTime;
+    private LocalTime checkInTime;
+    private LocalTime checkOutTime;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
 
-    private String checkInDate;
-    private String checkOutDate;
-
-    private String stayDuration; // e.g., "12hr"
-    private double farePerNight;
-    private double advancePayment;
-    private double remainingPayment;
+    private String stayDuration;           // e.g. "12hr"
+    private String farePerNight;
+    private String advancePayment;
+    private String remainingPayment;
 
     private String companyId;
 
     private boolean extraBed;
-    private double extraBedPrice;
+    private String extraBedPrice;
 
     private MealPlan mealPlan;
 
-    private boolean wakeUpCall;
-    private String wakeUpCallTime;
+    private String wakeUpCall;            // flag if a wake‑up call is requested
+    private LocalTime wakeUpCallTime;
+    private String status;
+    private String totalGuests;
+    private String roomNumber;
 }

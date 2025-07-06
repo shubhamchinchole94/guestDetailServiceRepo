@@ -3,7 +3,7 @@ package com.guestDetailsService.entity;
 import lombok.Data;
 
 @Data
-public class Guest {
+public class PrimaryGuest  {
     private String firstName;
     private String middleName;
     private String lastName;

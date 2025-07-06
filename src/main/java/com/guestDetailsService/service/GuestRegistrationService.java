@@ -4,8 +4,11 @@ import com.guestDetailsService.entity.RegistrationForm;
 import com.guestDetailsService.repository.GuestRegistrationRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,5 +56,19 @@ public class GuestRegistrationService {
         RegistrationForm saved = repo.save(updatedForm);
         log.info("Guest registration updated for ID: {}", saved.getId());
         return saved;
+    }
+
+    public String updateStatus(String id, String status) {
+
+        Optional<RegistrationForm> optionalGuest = repo.findById(id);
+        if (optionalGuest.isEmpty()) {
+            return "Guest not found";
+        }
+
+        RegistrationForm guest = optionalGuest.get();
+        guest.setStatus(status); // Set the new status
+
+        repo.save(guest);
+        return "Guest status updated successfully";
     }
 }
